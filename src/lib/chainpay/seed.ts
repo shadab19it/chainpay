@@ -1,0 +1,112 @@
+import type { Ledger } from "@/types/chainpay";
+
+/** The demo runs as if today is 21 Nov 2026 (buildathon day). */
+export const DEMO_TODAY = "2026-11-21";
+
+/** Seed data from the PRD (section 7). */
+export const SEED_LEDGER: Ledger = {
+  merchant: {
+    id: "m_ramesh",
+    name: "Ramesh Traders",
+    owner: "Ramesh",
+    city: "Indore",
+    business: "Wholesale trader",
+    openingBalance: 12000,
+  },
+  entries: [
+    {
+      id: "in1",
+      type: "in",
+      party: "Sharma Kirana Store",
+      shortName: "Sharma Kirana",
+      contactName: "Sharma ji",
+      phone: "+91 98260 14521",
+      amount: 48000,
+      dueDate: "2026-11-24",
+      status: "scheduled",
+      method: "UPI",
+    },
+    {
+      id: "in2",
+      type: "in",
+      party: "Gupta General Traders",
+      shortName: "Gupta General",
+      contactName: "Gupta ji",
+      phone: "+91 94250 33018",
+      amount: 35000,
+      dueDate: "2026-11-20",
+      status: "paid",
+      method: "Bank transfer",
+    },
+    {
+      id: "in3",
+      type: "in",
+      party: "Verma Sweets",
+      shortName: "Verma Sweets",
+      contactName: "Verma ji",
+      phone: "+91 99770 52864",
+      amount: 22000,
+      dueDate: "2026-11-27",
+      status: "scheduled",
+      method: "UPI",
+    },
+    {
+      id: "out1",
+      type: "out",
+      party: "Agarwal Flour Mill",
+      shortName: "Agarwal Flour",
+      contactName: "Agarwal ji",
+      role: "Supplier A",
+      phone: "+91 98930 71102",
+      amount: 20000,
+      dueDate: "2026-11-25",
+      status: "scheduled",
+      method: "Bank transfer",
+      dependsOn: "in1",
+    },
+    {
+      id: "out2",
+      type: "out",
+      party: "Jain Packaging",
+      shortName: "Jain Packaging",
+      contactName: "Jain ji",
+      role: "Supplier B",
+      phone: "+91 97540 28839",
+      amount: 18000,
+      dueDate: "2026-11-26",
+      status: "scheduled",
+      method: "UPI",
+      dependsOn: "in1",
+    },
+    {
+      id: "out3",
+      type: "out",
+      party: "Malwa Oil Depot",
+      shortName: "Malwa Oil",
+      contactName: "Malwa ji",
+      phone: "+91 98272 60457",
+      amount: 30000,
+      dueDate: "2026-11-21",
+      status: "scheduled",
+      method: "Bank transfer",
+      dependsOn: "in2",
+    },
+    {
+      id: "out4",
+      type: "out",
+      party: "Raju Logistics",
+      shortName: "Raju Logistics",
+      contactName: "Raju bhai",
+      phone: "+91 93009 15376",
+      amount: 12000,
+      dueDate: "2026-11-28",
+      status: "scheduled",
+      method: "UPI",
+      dependsOn: "in3",
+    },
+  ],
+};
+
+export function cloneSeedLedger(): Ledger {
+  return structuredClone(SEED_LEDGER);
+}

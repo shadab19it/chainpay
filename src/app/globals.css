@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Use as bg-background, text-in, bg-risk-soft, border-out-line, ...
+ * Money in = green, money out = orange, failed = red, at risk = amber (PRD §8).
+ * ChainPay is a light-only fintech surface, so there is no dark override.
+ */
+:root {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --surface: #f7f7f5;
+  --foreground: #1a1917;
+  --muted: #f2f1ee;
+  --muted-foreground: #74716b;
+  --border: #e6e4df;
+  --border-strong: #d6d3cc;
+
+  --in: #16803c;
+  --in-soft: #eef8f1;
+  --in-line: #9bd5ae;
+
+  --out: #c4520f;
+  --out-soft: #fff4ec;
+  --out-line: #f6be95;
+
+  --fail: #c0262d;
+  --fail-soft: #fdf0f0;
+  --fail-line: #f1a7a9;
+
+  --risk: #b26b00;
+  --risk-soft: #fff8e6;
+  --risk-line: #f2c25a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-in: var(--in);
+  --color-in-soft: var(--in-soft);
+  --color-in-line: var(--in-line);
+  --color-out: var(--out);
+  --color-out-soft: var(--out-soft);
+  --color-out-line: var(--out-line);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+  --color-fail-line: var(--fail-line);
+  --color-risk: var(--risk);
+  --color-risk-soft: var(--risk-soft);
+  --color-risk-line: var(--risk-line);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* ---------------------------------------------------------------- motion */
+
+/* At-risk blocks breathe so they read as "needs attention", not as broken. */
+@keyframes cp-risk {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--risk-line) 70%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--risk-line) 0%, transparent);
+  }
+}
+.cp-risk {
+  animation: cp-risk 1.8s ease-in-out infinite;
+}
+
+@keyframes cp-wave {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.cp-wave-bar {
+  transform-origin: center;
+  animation: cp-wave 0.9s ease-in-out infinite;
+}
+
+@keyframes cp-draw {
+  from {
+    stroke-dashoffset: var(--len, 400);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.cp-draw {
+  stroke-dasharray: var(--len, 400);
+  animation: cp-draw 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes cp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cp-rise {
+  animation: cp-rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Calendar blocks glide to their new day (View Transitions API). */
+::view-transition-group(*) {
+  animation-duration: 0.75s;
+  animation-timing-function: cubic-bezier(0.25, 0.9, 0.25, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-risk,
+  .cp-wave-bar,
+  .cp-draw,
+  .cp-rise {
+    animation: none;
+  }
+  ::view-transition-group(*) {
+    animation-duration: 0s;
+  }
+}
