@@ -1,5 +1,3 @@
-# Buildathon Starter
-
 A clean, minimal **Next.js (App Router) + TypeScript + Tailwind CSS** foundation for a one-day buildathon.
 It has no product features yet — those get built on the day.
 
